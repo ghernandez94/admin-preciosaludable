@@ -13,7 +13,7 @@
             <div formGroupName="Farmaco">
                 <div class="form-group">
                     <select class="form-control" formControlName="PresentacionIdPresentacion">
-                        <option value="0">Elegir presentación</option>
+                        <option value="">Elegir presentación</option>
                         <option *ngFor="let pre of Presentaciones"
                                 value={{pre.idPresentacion}}>  
                             {{pre.nombrePresentacion}}  
@@ -35,7 +35,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group m-0">
                                         <select class="form-control" formControlName="PrincipioActivoIdPrincipioActivo">
-                                            <option value="0">Elegir principio activo</option>
+                                            <option value="">Elegir principio activo</option>
                                             <option *ngFor="let pa of PrincipiosActivos" 
                                                     value={{pa.idPrincipioActivo}}>  
                                                 {{pa.nombrePrincipioActivo}}  
@@ -67,7 +67,7 @@
             <div class="form-group mt-3">
                 <h5>Laboratorio</h5>
                 <select id="LaboratorioIdLaboratorio" class="form-control" formControlName="LaboratorioIdLaboratorio">
-                    <option value="0">Elegir laboratorio</option>
+                    <option value="">Elegir laboratorio</option>
                     <option *ngFor="let lab of Laboratorios" 
                             value={{lab.idLaboratorio}}>  
                         {{lab.nombreLaboratorio}}  

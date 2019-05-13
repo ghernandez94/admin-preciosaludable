@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { ProductoComponent } from './pages/producto/producto.component';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { TopbarComponent } from './shared/topbar/topbar.component';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // Routes
 import { APP_ROUTES } from './app.routes';

@@ -51,6 +51,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group m-0">
                                         <select class="form-control" formControlName="UnidadMedidaIdUnidadMedida">
+                                            <option value="">unidad de medida</option>
                                             <option *ngFor="let um of UnidadesMedida" 
                                                     value={{um.idUnidadMedida}}>  
                                                 {{um.simboloUnidadMedida}}  

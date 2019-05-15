@@ -41,6 +41,7 @@ export class ProductoComponent implements OnInit {
     this.getPresentaciones();
     this.getPrincipiosActivos();
     this.getLaboratorios();
+    this.getUnidadesMedida();
   }
 
   getPresentaciones() {

@@ -7,8 +7,8 @@ export abstract class PrecioSaludableService {
 
   constructor(protected http: HttpClient) { }
 
-  // private endpoint = 'http://localhost:5000';
-  private myEndpoint = 'https://preciosaludable.azurewebsites.net';
+  private myEndpoint = 'http://localhost:5000';
+  //private myEndpoint = 'https://preciosaludable.azurewebsites.net';
   private myHttpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'

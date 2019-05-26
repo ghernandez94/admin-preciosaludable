@@ -1,9 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormArray, FormBuilder  } from '@angular/forms';
+import { FormGroup, FormControl, FormArray, FormBuilder, Validators  } from '@angular/forms';
+
+// Services
 import { PresentacionService } from '../../services/presentacion.service';
 import { PrincipioActivoService } from '../../services/principioactivo.service';
 import { UnidadMedidaService } from 'src/app/services/unidadmedida.service';
 import { LaboratorioService } from '../../services/laboratorio.service';
+import { ProductoService } from '../../services/producto.service';
+
+// Models
+import { Producto } from '../../shared/models/producto';
 
 @Component({
   selector: 'app-producto',
@@ -15,15 +21,16 @@ export class ProductoComponent implements OnInit {
   PrincipiosActivos: any = [];
   UnidadesMedida: any = [];
   Laboratorios: any = [];
+  submittedProductoForm = false;
 
   productoForm = this.fb.group({
-    NombreComercialProducto: [''],
-    Farmaco: this.fb.group({
-      PresentacionIdPresentacion: [''],
-      Concentracion: this.fb.array([])
+    NombreComercialProducto: ['', Validators.required],
+    farmacoIdFarmacoNavigation: this.fb.group({
+      PresentacionIdPresentacion: ['', Validators.required],
+      concentracion: this.fb.array([])
     }),
-    LaboratorioIdLaboratorio: [''],
-    CantidadPresentacion: [''],
+    LaboratorioIdLaboratorio: ['', Validators.required],
+    CantidadPresentacion: ['', Validators.required],
     ProductoBioequivalente: ['']
   });
 
@@ -33,7 +40,7 @@ export class ProductoComponent implements OnInit {
     private principioactivoService: PrincipioActivoService,
     private unidadmedidaService: UnidadMedidaService,
     private laboratorioService: LaboratorioService,
-
+    private productoService: ProductoService
   ) { }
 
   ngOnInit() {
@@ -44,6 +51,64 @@ export class ProductoComponent implements OnInit {
     this.getUnidadesMedida();
   }
 
+  onSubmit() {
+    this.submittedProductoForm = true;
+    // stop here if form is invalid
+    if (this.productoForm.invalid) {
+      return;
+    }
+
+    let producto: Producto = new Producto(this.productoForm.value); 
+    this.productoService.agregarProducto(producto).subscribe((data: {}) => {
+      producto = new Producto(data);
+      alert('Producto creado exitósamente');
+      this.productoForm.reset();
+      this.submittedProductoForm = false;
+    });
+
+
+
+    //alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.productoForm.value))
+  }
+
+  // Elementos del formulario
+  get NombreComercialProducto() {
+    return this.productoForm.get("NombreComercialProducto");
+  }
+
+  get LaboratorioIdLaboratorio() {
+    return this.productoForm.get("LaboratorioIdLaboratorio");
+  }
+
+  get CantidadPresentacion() {
+    return this.productoForm.get("CantidadPresentacion");
+  }
+
+  get ProductoBioequivalente() {
+    return this.productoForm.get("ProductoBioequivalente");
+  }
+
+  get concentracion() {
+    return this.productoForm.get('farmacoIdFarmacoNavigation.concentracion') as FormArray;
+  }
+
+  get PresentacionIdPresentacion() {
+    return this.productoForm.get('farmacoIdFarmacoNavigation.PresentacionIdPresentacion') as FormArray;
+  }
+
+  addConcentracion() {
+    this.concentracion.push(this.newConcentracion());
+  }
+
+  newConcentracion(): FormGroup {
+    return this.fb.group({
+      cantidad: ['', Validators.required],
+      unidadMedidaIdUnidadMedida: ['', Validators.required],
+      principioActivoIdPrincipioActivo: ['', Validators.required]
+    });
+  }
+
+  // Colecciones 
   getPresentaciones() {
     this.presentacionService
       .getAll()
@@ -75,21 +140,4 @@ export class ProductoComponent implements OnInit {
         this.Laboratorios = data;
     });
   }
-
-  get concentracion() {
-    return this.productoForm.get('Farmaco.Concentracion') as FormArray;
-  }
-
-  addConcentracion() {
-    this.concentracion.push(this.newConcentracion());
-  }
-
-  newConcentracion(): FormGroup {
-    return this.fb.group({
-      Cantidad: [''],
-      UnidadMedidaIdUnidadMedida: [''],
-      PrincipioActivoIdPrincipioActivo: ['']
-    });
-  }
-
 }

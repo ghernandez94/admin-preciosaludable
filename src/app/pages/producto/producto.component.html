@@ -1,18 +1,19 @@
 <div class="row">
     <div class="col-8 mt-5">
-        <form [formGroup]="productoForm">
+        <h3>Crear Producto</h3>
+        <form [formGroup]="productoForm" (ngSubmit)="onSubmit()">
             <div class="form-group">
                 <label for="NombreComercialProducto">Nombre Comercial</label>
-                <input type="text" id="NombreComercialProducto" class="form-control" formControlName="NombreComercialProducto" placeholder="ej: Aspirina" />
+                <input type="text" id="NombreComercialProducto" class="form-control" [ngClass]="{ 'is-invalid':NombreComercialProducto.invalid && this.submittedProductoForm }" formControlName="NombreComercialProducto" placeholder="ej: Aspirina" required />
             </div>
             <h4>Fármaco</h4>
             <h5>Presentación</h5>
             <div class="form-group">
-                <input type="number" id="CantidadPresentacion" class="form-control" min="0" formControlName="CantidadPresentacion" placeholder="cantidad" />
+                <input type="number" id="CantidadPresentacion" class="form-control" [ngClass]="{ 'is-invalid':CantidadPresentacion.invalid && this.submittedProductoForm }" min="0" formControlName="CantidadPresentacion" placeholder="cantidad" required />
             </div>
-            <div formGroupName="Farmaco">
+            <div formGroupName="farmacoIdFarmacoNavigation">
                 <div class="form-group">
-                    <select class="form-control" formControlName="PresentacionIdPresentacion">
+                    <select class="form-control" [ngClass]="{ 'is-invalid':PresentacionIdPresentacion.invalid && this.submittedProductoForm }" formControlName="PresentacionIdPresentacion" required>
                         <option value="">Elegir presentación</option>
                         <option *ngFor="let pre of Presentaciones"
                                 value={{pre.idPresentacion}}>  
@@ -23,18 +24,18 @@
                 <h5>Concentración</h5>
                 <div class="row">
                     <div class="col-12">
-                        <button class="btn btn-primary" (click)="addConcentracion()">
+                        <button class="btn btn-secondary" (click)="addConcentracion()">
                             Agregar principio activo
                         </button>
                     </div>
                 </div>
-                <div formArrayName="Concentracion">
+                <div formArrayName="concentracion">
                     <div *ngFor="let item of concentracion.controls; let i = index">
                         <div [formGroupName]="i">
                             <div class="row mt-2">
                                 <div class="col-md-6">
                                     <div class="form-group m-0">
-                                        <select class="form-control" formControlName="PrincipioActivoIdPrincipioActivo">
+                                        <select class="form-control" formControlName="principioActivoIdPrincipioActivo" required>
                                             <option value="">Elegir principio activo</option>
                                             <option *ngFor="let pa of PrincipiosActivos" 
                                                     value={{pa.idPrincipioActivo}}>  
@@ -45,12 +46,12 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group m-0">
-                                        <input type="number" id="Cantidad" class="form-control" min="0" formControlName="Cantidad" placeholder="cantidad" />
+                                        <input type="number" id="cantidad" class="form-control" min="0" formControlName="cantidad" placeholder="cantidad" required />
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group m-0">
-                                        <select class="form-control" formControlName="UnidadMedidaIdUnidadMedida">
+                                        <select class="form-control" formControlName="unidadMedidaIdUnidadMedida" required>
                                             <option value="">unidad de medida</option>
                                             <option *ngFor="let um of UnidadesMedida" 
                                                     value={{um.idUnidadMedida}}>  
@@ -67,7 +68,7 @@
             <hr>
             <div class="form-group mt-3">
                 <h5>Laboratorio</h5>
-                <select id="LaboratorioIdLaboratorio" class="form-control" formControlName="LaboratorioIdLaboratorio">
+                <select id="LaboratorioIdLaboratorio" class="form-control" [ngClass]="{ 'is-invalid':LaboratorioIdLaboratorio.invalid && this.submittedProductoForm }" formControlName="LaboratorioIdLaboratorio" required>
                     <option value="">Elegir laboratorio</option>
                     <option *ngFor="let lab of Laboratorios" 
                             value={{lab.idLaboratorio}}>  
@@ -79,6 +80,7 @@
                 <h5>Bioequivalente</h5>
                 <input type="text" id="ProductoBioequivalente" class="form-control" formControlName="ProductoBioequivalente" placeholder="código de producto" />
             </div>
+            <button type="submit" class="btn btn-primary">Crear Producto</button>
         </form>
     </div>
 </div>

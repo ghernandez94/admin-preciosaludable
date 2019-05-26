@@ -11,7 +11,7 @@ import { PrecioSaludableService } from './preciosaludable.service';
 export class PresentacionService extends PrecioSaludableService {
 
   getAll(): Observable<Presentacion> {
-    return this.http.get<Presentacion>(this.endpoint + '/api/presentacion', this.httpOptions)
+    return this.http.get<Presentacion>(this.endpoint + '/api/presentacion/all', this.httpOptions)
       .pipe(
         retry(1),
         catchError(this.handleError)

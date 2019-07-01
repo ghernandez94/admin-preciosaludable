@@ -1,0 +1,47 @@
+<div class="row">
+  <div class="col-8">
+    <h3>Agregar precio</h3>
+    <form [formGroup]="dpForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="ProductoIdProducto">Producto</label>
+        <select id="ProductoIdProducto" class="form-control"
+          [ngClass]="{ 'is-invalid':dpForm.get('ProductoIdProducto').invalid && this.submittedProductoForm }"
+          formControlName="ProductoIdProducto" required>
+          <option value="">Elegir producto</option>
+          <option *ngFor="let prd of Productos" value={{prd.idProducto}}>
+            {{prd.nombreComercialProducto }} 
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="PrecioFarmaco">Precio</label>
+        <input type="number" id="PrecioFarmaco" class="form-control"
+          [ngClass]="{ 'is-invalid':dpForm.get('PrecioFarmaco').invalid && this.submittedProductoForm }"
+          formControlName="PrecioFarmaco" placeholder="ej: 4990" required />
+      </div>
+      <div class="form-group">
+        <label for="Farmacia">Farmacia</label>
+        <select id="Farmacia" class="form-control"
+          [ngClass]="{ 'is-invalid':dpForm.get('SucursalIdSucursal').invalid && this.submittedProductoForm }" 
+          (change)="farmaciaOnChange($event.target.value)" required>
+          <option value="">Elegir farmacia</option>
+          <option *ngFor="let far of Farmacias" value={{far.idFarmacia}}>
+            {{far.nombreFarmacia }} 
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="SucursalIdSucursal">Sucursal</label>
+        <select id="SucursalIdSucursal" class="form-control"
+          [ngClass]="{ 'is-invalid':dpForm.get('SucursalIdSucursal').invalid && this.submittedProductoForm }"
+          formControlName="SucursalIdSucursal" required>
+          <option value="">Elegir sucursal</option>
+          <option *ngFor="let suc of Sucursales" value={{suc.idSucursal}}>
+            {{ suc.direccionSucursal + ', ' + suc.comunaIdComunaNavigation.nombreComuna }} 
+          </option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">Agregar Precio</button>
+    </form>
+  </div>
+</div>

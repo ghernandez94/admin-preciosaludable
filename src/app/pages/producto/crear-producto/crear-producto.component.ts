@@ -1,28 +1,39 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormArray, FormBuilder, Validators  } from '@angular/forms';
+import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 
 // Services
-import { PresentacionService } from '../../services/presentacion.service';
-import { PrincipioActivoService } from '../../services/principioactivo.service';
+import { PresentacionService } from 'src/app/services/presentacion.service';
+import { PrincipioActivoService } from 'src/app/services/principioactivo.service';
 import { UnidadMedidaService } from 'src/app/services/unidadmedida.service';
-import { LaboratorioService } from '../../services/laboratorio.service';
-import { ProductoService } from '../../services/producto.service';
+import { LaboratorioService } from 'src/app/services/laboratorio.service';
+import { ProductoService } from 'src/app/services/producto.service';
 
 // Models
-import { Producto } from '../../shared/models/producto';
+import { Producto } from 'src/app/shared/models/producto';
+import { Presentacion } from 'src/app/shared/models/presentacion';
+import { Principioactivo } from 'src/app/shared/models/principioactivo';
+import { Unidadmedida } from 'src/app/shared/models/unidadmedida';
+import { Laboratorio } from 'src/app/shared/models/laboratorio';
 
 @Component({
-  selector: 'app-producto',
-  templateUrl: './producto.component.html',
-  styles: []
+  selector: 'app-crear-producto',
+  templateUrl: './crear-producto.component.html'
 })
-export class ProductoComponent implements OnInit {
-  Presentaciones: any = [];
-  PrincipiosActivos: any = [];
-  UnidadesMedida: any = [];
-  Laboratorios: any = [];
-  submittedProductoForm = false;
+export class CrearProductoComponent implements OnInit {
+  constructor(
+    private fb: FormBuilder,
+    private presentacionService: PresentacionService,
+    private principioactivoService: PrincipioActivoService,
+    private unidadmedidaService: UnidadMedidaService,
+    private laboratorioService: LaboratorioService,
+    private productoService: ProductoService
+  ) { }
 
+  Presentaciones = new Array<Presentacion>();
+  PrincipiosActivos = new Array<Principioactivo>();
+  UnidadesMedida = new Array<Unidadmedida>();
+  Laboratorios = new Array<Laboratorio>();
+  submittedProductoForm = false;
   productoForm = this.fb.group({
     NombreComercialProducto: ['', Validators.required],
     farmacoIdFarmacoNavigation: this.fb.group({
@@ -33,15 +44,6 @@ export class ProductoComponent implements OnInit {
     CantidadPresentacion: ['', Validators.required],
     ProductoBioequivalente: ['']
   });
-
-  constructor(
-    private fb: FormBuilder,
-    private presentacionService: PresentacionService,
-    private principioactivoService: PrincipioActivoService,
-    private unidadmedidaService: UnidadMedidaService,
-    private laboratorioService: LaboratorioService,
-    private productoService: ProductoService
-  ) { }
 
   ngOnInit() {
     this.addConcentracion();
@@ -58,34 +60,30 @@ export class ProductoComponent implements OnInit {
       return;
     }
 
-    let producto: Producto = new Producto(this.productoForm.value); 
+    let producto: Producto = new Producto(this.productoForm.value);
     this.productoService.agregarProducto(producto).subscribe((data: {}) => {
       producto = new Producto(data);
       alert('Producto creado exitósamente');
       this.productoForm.reset();
       this.submittedProductoForm = false;
     });
-
-
-
-    //alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.productoForm.value))
   }
 
   // Elementos del formulario
   get NombreComercialProducto() {
-    return this.productoForm.get("NombreComercialProducto");
+    return this.productoForm.get('NombreComercialProducto');
   }
 
   get LaboratorioIdLaboratorio() {
-    return this.productoForm.get("LaboratorioIdLaboratorio");
+    return this.productoForm.get('LaboratorioIdLaboratorio');
   }
 
   get CantidadPresentacion() {
-    return this.productoForm.get("CantidadPresentacion");
+    return this.productoForm.get('CantidadPresentacion');
   }
 
   get ProductoBioequivalente() {
-    return this.productoForm.get("ProductoBioequivalente");
+    return this.productoForm.get('ProductoBioequivalente');
   }
 
   get concentracion() {
@@ -108,36 +106,36 @@ export class ProductoComponent implements OnInit {
     });
   }
 
-  // Colecciones 
+  // Colecciones
   getPresentaciones() {
     this.presentacionService
       .getAll()
-      .subscribe((data: {}) => {
+      .subscribe((data) => {
         this.Presentaciones = data;
-    });
+      });
   }
 
   getPrincipiosActivos() {
     this.principioactivoService
       .getAll()
-      .subscribe((data: {}) => {
+      .subscribe((data) => {
         this.PrincipiosActivos = data;
-    });
+      });
   }
 
   getUnidadesMedida() {
     this.unidadmedidaService
       .getAll()
-      .subscribe((data: {}) => {
+      .subscribe((data) => {
         this.UnidadesMedida = data;
-    });
+      });
   }
 
   getLaboratorios() {
     this.laboratorioService
       .getAll()
-      .subscribe((data: {}) => {
+      .subscribe((data) => {
         this.Laboratorios = data;
-    });
+      });
   }
 }

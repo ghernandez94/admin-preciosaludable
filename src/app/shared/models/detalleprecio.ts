@@ -3,6 +3,10 @@ import { Sucursal } from './sucursal';
 import { Usuario } from './usuario';
 
 export class Detalleprecio {
+    public constructor(init?: Partial<Detalleprecio >) {
+        Object.assign(this, init);
+    }
+
     idDetallePrecio: number;
     fechaHoraDetalle: string;
     precioFarmaco: number;

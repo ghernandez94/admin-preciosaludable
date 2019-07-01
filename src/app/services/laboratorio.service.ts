@@ -10,8 +10,8 @@ import { PrecioSaludableService } from './preciosaludable.service';
 })
 export class LaboratorioService extends PrecioSaludableService {
 
-  getAll(): Observable<Laboratorio> {
-    return this.http.get<Laboratorio>(this.endpoint + '/api/laboratorio/all', this.httpOptions)
+  getAll(): Observable<Array<Laboratorio>> {
+    return this.http.get<Array<Laboratorio>>(this.endpoint + '/api/laboratorio/all', this.httpOptions)
       .pipe(
         retry(1),
         catchError(this.handleError)

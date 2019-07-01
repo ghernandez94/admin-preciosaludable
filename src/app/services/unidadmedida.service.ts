@@ -10,8 +10,8 @@ import { PrecioSaludableService } from './preciosaludable.service';
 })
 export class UnidadMedidaService extends PrecioSaludableService {
 
-  getAll(): Observable<Unidadmedida> {
-    return this.http.get<Unidadmedida>(this.endpoint + '/api/unidadmedida/all', this.httpOptions)
+  getAll(): Observable<Array<Unidadmedida>> {
+    return this.http.get<Array<Unidadmedida>>(this.endpoint + '/api/unidadmedida/all', this.httpOptions)
       .pipe(
         retry(1),
         catchError(this.handleError)

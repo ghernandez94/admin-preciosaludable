@@ -1,0 +1,52 @@
+<div class="row">
+  <div class="col-8">
+    <h3>Crear Producto</h3>
+    <form [formGroup]="productoForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="NombreComercialProducto">Nombre Comercial</label>
+        <input type="text" id="NombreComercialProducto" class="form-control"
+          [ngClass]="{ 'is-invalid':NombreComercialProducto.invalid && this.submittedProductoForm }"
+          formControlName="NombreComercialProducto" placeholder="ej: Aspirina" required />
+      </div>
+      <h4>Fármaco</h4>
+      <nav class="my-3">
+        <a class="btn btn-secondary" routerLink="/producto/crear" routerLinkActive="btn-active">Nuevo Fármaco</a>
+        <a class="btn btn-secondary" routerLink="/producto/crear-alt" routerLinkActive="btn-active">Fármaco
+          existente</a>
+      </nav>
+      <div class="form-group mt-3">
+        <select id="farmacoIdFarmaco" class="form-control"
+          [ngClass]="{ 'is-invalid':farmacoIdFarmaco.invalid && this.submittedProductoForm }"
+          formControlName="farmacoIdFarmaco" required>
+          <option value="">Elegir fármaco</option>
+          <option *ngFor="let far of Farmacos" value={{far.idFarmaco}}>
+            {{far.concentracion | joinConcentracion }} 
+          </option>
+        </select>
+      </div>
+      <h5>Presentación</h5>
+      <div class="form-group">
+        <input type="number" id="CantidadPresentacion" class="form-control"
+          [ngClass]="{ 'is-invalid':CantidadPresentacion.invalid && this.submittedProductoForm }" min="0"
+          formControlName="CantidadPresentacion" placeholder="cantidad" required />
+      </div>
+      <div class="form-group mt-3">
+        <h5>Laboratorio</h5>
+        <select id="LaboratorioIdLaboratorio" class="form-control"
+          [ngClass]="{ 'is-invalid':LaboratorioIdLaboratorio.invalid && this.submittedProductoForm }"
+          formControlName="LaboratorioIdLaboratorio" required>
+          <option value="">Elegir laboratorio</option>
+          <option *ngFor="let lab of Laboratorios" value={{lab.idLaboratorio}}>
+            {{lab.nombreLaboratorio}}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <h5>Bioequivalente</h5>
+        <input type="text" id="ProductoBioequivalente" class="form-control" formControlName="ProductoBioequivalente"
+          placeholder="código de producto" />
+      </div>
+      <button type="submit" class="btn btn-primary">Crear Producto</button>
+    </form>
+  </div>
+</div>
